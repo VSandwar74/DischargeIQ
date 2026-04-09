@@ -1,0 +1,491 @@
+@use '@carbon/react';
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --cds-interactive: #0f62fe;
+  --cds-interactive-hover: #0353e9;
+  --cds-interactive-active: #002d9c;
+  --cds-background: #ffffff;
+  --cds-layer-01: #f4f4f4;
+  --cds-layer-02: #e0e0e0;
+  --cds-text-primary: #161616;
+  --cds-text-secondary: #525252;
+  --cds-text-placeholder: #a8a8a8;
+  --cds-support-success: #24a148;
+  --cds-support-warning: #f1c21b;
+  --cds-support-error: #da1e28;
+  --cds-support-info: #0043ce;
+  --cds-border-subtle: #e0e0e0;
+
+  --agent-prior-auth: #0f62fe;
+  --agent-placement: #009d9a;
+  --agent-compliance: #8a3ffc;
+  --agent-supervisor: #161616;
+
+  --font-sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+body {
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  background-color: var(--cds-layer-01);
+  color: var(--cds-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bx--content,
+.cds--content {
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+/* Utility classes */
+.mono {
+  font-family: var(--font-mono);
+}
+
+.semibold {
+  font-weight: 600;
+}
+
+.light {
+  font-weight: 300;
+}
+
+.text-secondary {
+  color: var(--cds-text-secondary);
+}
+
+.text-error {
+  color: var(--cds-support-error);
+}
+
+.text-success {
+  color: var(--cds-support-success);
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+/* Timeline styles */
+.timeline-entry {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0;
+  position: relative;
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.timeline-dot.pending {
+  background: transparent;
+  border: 2px solid #8d8d8d;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 5px;
+  top: 28px;
+  bottom: 0;
+  width: 2px;
+  background: #e0e0e0;
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.timeline-time {
+  font-size: 12px;
+  color: #525252;
+  white-space: nowrap;
+}
+
+/* App shell overrides */
+.app-header {
+  background-color: #002d9c;
+}
+
+.app-header .cds--header__name {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.app-header .cds--header__nav .cds--header__menu-item,
+.app-header .cds--header__nav a.cds--header__menu-item,
+.app-header .cds--header__nav .cds--header__menu-item[role="menuitem"] {
+  color: #ffffff !important;
+  background-color: transparent;
+}
+
+.app-header .cds--header__nav .cds--header__menu-item:hover,
+.app-header .cds--header__nav a.cds--header__menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+.app-header .cds--header__nav .cds--header__menu-item[aria-current="page"] {
+  color: #ffffff !important;
+  border-bottom: 2px solid #ffffff;
+}
+
+/* Summary card styles */
+.summary-card {
+  background: #ffffff;
+  border: 1px solid var(--cds-border-subtle);
+  border-radius: 4px;
+  padding: 24px;
+  height: 100%;
+}
+
+.summary-card__label {
+  font-size: 12px;
+  color: var(--cds-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.32px;
+  margin-bottom: 8px;
+}
+
+.summary-card__value {
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--cds-text-primary);
+  margin-bottom: 8px;
+}
+
+.summary-card__delta {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.summary-card__delta--positive {
+  color: var(--cds-support-success);
+}
+
+.summary-card__delta--negative {
+  color: var(--cds-support-error);
+}
+
+/* Patient detail styles */
+.patient-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.patient-header__name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.patient-header__mrn {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--cds-text-secondary);
+}
+
+.patient-header__payer {
+  font-size: 14px;
+  color: var(--cds-text-secondary);
+}
+
+.detail-card {
+  background: #ffffff;
+  border: 1px solid var(--cds-border-subtle);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.detail-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--cds-border-subtle);
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.detail-row__label {
+  color: var(--cds-text-secondary);
+}
+
+.detail-row__value {
+  font-weight: 500;
+}
+
+/* Facility match styles */
+.facility-match {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cds-border-subtle);
+}
+
+.facility-match:last-child {
+  border-bottom: none;
+}
+
+.facility-match__name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.facility-match__meta {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--cds-text-secondary);
+  flex-wrap: wrap;
+}
+
+/* Agent badge */
+.agent-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.agent-badge--prior_auth {
+  background-color: var(--agent-prior-auth);
+}
+
+.agent-badge--placement {
+  background-color: var(--agent-placement);
+}
+
+.agent-badge--compliance {
+  background-color: var(--agent-compliance);
+}
+
+.agent-badge--supervisor {
+  background-color: var(--agent-supervisor);
+}
+
+/* Avoidable days */
+.avoidable-days--high {
+  color: var(--cds-support-error);
+  font-weight: 600;
+}
+
+/* Workflow card */
+.workflow-card {
+  margin-bottom: 8px;
+}
+
+.workflow-card__meta {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--cds-text-secondary);
+  margin-top: 8px;
+}
+
+.workflow-card__agents {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.workflow-card__agent-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* Side nav overrides */
+.side-nav-patient {
+  font-size: 14px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--cds-border-subtle);
+  transition: background-color 0.15s;
+}
+
+.side-nav-patient:hover {
+  background-color: var(--cds-layer-01);
+}
+
+/* Audit page */
+.audit-header {
+  margin-bottom: 24px;
+}
+
+.audit-header__title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.audit-header__subtitle {
+  font-size: 14px;
+  color: var(--cds-text-secondary);
+  margin-top: 4px;
+}
+
+/* Actions row */
+.actions-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   Mobile Responsive Styles
+   ============================================================ */
+
+/* Prevent horizontal overflow globally */
+html, body, #root {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Mobile content padding */
+@media (max-width: 671px) {
+  .bx--content,
+  .cds--content {
+    padding: 1rem 0.75rem;
+    margin-top: 3rem;
+  }
+
+  /* Summary cards stack vertically on mobile */
+  .summary-cards-row {
+    flex-direction: column;
+  }
+
+  .summary-card {
+    padding: 16px;
+  }
+
+  .summary-card__value {
+    font-size: 22px;
+  }
+
+  /* Data table: horizontal scroll container */
+  .cds--data-table-container,
+  .cds--data-table-content {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cds--data-table {
+    min-width: 600px;
+  }
+
+  /* Patient header wraps on mobile */
+  .patient-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .patient-header__name {
+    font-size: 18px;
+  }
+
+  /* Detail layout stacks on mobile */
+  .patient-detail-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .detail-card {
+    padding: 12px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Timeline compact on mobile */
+  .timeline-entry {
+    gap: 10px;
+  }
+
+  .timeline-time {
+    font-size: 11px;
+  }
+
+  /* Workflow card meta wraps */
+  .workflow-card__meta {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Facility match meta wraps */
+  .facility-match__meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Actions row wraps on mobile */
+  .actions-row {
+    flex-direction: column;
+  }
+
+  .actions-row .cds--btn {
+    width: 100%;
+  }
+
+  /* Side nav hidden on mobile by default */
+  .cds--side-nav {
+    display: none;
+  }
+
+  /* Audit page table scrollable */
+  .audit-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Notification wraps text */
+  .cds--inline-notification {
+    max-width: 100%;
+  }
+
+  .cds--inline-notification__text-wrapper {
+    word-break: break-word;
+  }
+}
+
+/* Tablet */
+@media (min-width: 672px) and (max-width: 1055px) {
+  .bx--content,
+  .cds--content {
+    padding: 1.5rem;
+  }
+
+  .summary-cards-row {
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,36 @@
+# DischargeIQ — Python dependencies
+# Pin all versions per HIPAA compliance requirements
+
+# --- API Framework ---
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-dotenv==1.0.1
+
+# --- Database ---
+sqlalchemy==2.0.30
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+alembic==1.13.1
+redis==5.0.7
+
+# --- Data validation ---
+pydantic==2.7.4
+
+# --- Auth ---
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# --- Encryption ---
+cryptography==42.0.8
+
+# --- HTTP client (Epic FHIR, Availity, CarePort) ---
+httpx[http2]==0.27.0
+
+# --- Testing ---
+pytest==8.2.2
+pytest-asyncio==0.23.7
+
+# --- IBM watsonx.ai SDK (optional — used when DEV_MODE=false) ---
+# ibm-watsonx-ai==1.1.2
+# Uncomment above when connecting to real watsonx.ai.
+# The SDK is large; httpx-based client in watsonx.py works without it.

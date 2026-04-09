@@ -1,0 +1,12 @@
+node_modules
+src/frontend/node_modules
+src/frontend/build
+.venv
+__pycache__
+*.pyc
+.env
+.git
+e2e
+tests
+*.md
+.claude

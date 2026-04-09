@@ -1,0 +1,63 @@
+##############################################################################
+# DischargeIQ — one command: docker compose up --build
+##############################################################################
+
+services:
+  # ---- PostgreSQL (workflow & audit persistence) ----
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dischargeiq
+      POSTGRES_USER: dischargeiq
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-dischargeiq_dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dischargeiq"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ---- Redis (cache & rate limiting) ----
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ---- DischargeIQ Backend + Frontend ----
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      # Override DB/Redis URLs to point at sibling containers
+      DATABASE_URL: postgresql+asyncpg://dischargeiq:${DB_PASSWORD:-dischargeiq_dev}@db:5432/dischargeiq
+      REDIS_URL: redis://redis:6379/0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  pgdata:
+  redisdata:

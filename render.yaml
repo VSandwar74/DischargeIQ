@@ -1,0 +1,35 @@
+# Render Blueprint — DischargeIQ Backend
+# Deploy: https://render.com/deploy → point to this repo
+
+databases:
+  - name: dischargeiq-db
+    plan: free
+    databaseName: dischargeiq
+    user: dischargeiq
+
+services:
+  - type: web
+    name: dischargeiq-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: DEV_MODE
+        value: "true"
+      - key: PORT
+        value: "8000"
+      - key: CORS_ORIGINS
+        value: "https://dischargeiq.vercel.app,http://localhost:3000"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dischargeiq-db
+          property: connectionURI
+      - key: ENCRYPTION_KEY
+        generateValue: true
+      - key: AUDIT_SALT
+        generateValue: true
+      - key: JWT_SECRET
+        generateValue: true
+      # Set these manually in Render dashboard if you want live integrations:
+      # WATSONX_API_KEY, WATSONX_PROJECT_ID, WATSONX_MODE
+      # EPIC_MODE, AVAILITY_MODE, CAREPORT_MODE
